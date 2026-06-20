@@ -334,6 +334,7 @@ a {
     color: var(--text-secondary);
     margin-bottom: 30px;
     max-width: 700px;
+    text-align: center;
 }
 
 .hero-badges-grid {
@@ -592,6 +593,13 @@ a {
     margin: 0 auto;
 }
 
+.problem-simple-card:last-child {
+    grid-column: span 2;
+    max-width: 408px;
+    margin: 0 auto;
+    width: 100%;
+}
+
 .problem-simple-card {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -671,6 +679,34 @@ a {
     color: var(--text-secondary);
     font-size: 13.5px;
     line-height: 1.6;
+}
+
+.workflow-sublist {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.workflow-sublist li {
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.workflow-sublist li::before {
+    content: "•";
+    color: var(--accent-neon);
+    font-size: 18px;
+    position: absolute;
+    left: 4px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 /* ==========================================================================
@@ -916,6 +952,7 @@ a {
     font-size: 16px;
     text-decoration: line-through;
     color: var(--text-secondary);
+    white-space: nowrap;
 }
 
 .current-price {
@@ -923,6 +960,7 @@ a {
     font-size: 28px;
     font-weight: 800;
     color: var(--accent-neon);
+    white-space: nowrap;
 }
 
 /* ==========================================================================
@@ -1215,14 +1253,44 @@ a {
         gap: 16px;
     }
     
+    .problem-simple-card:last-child {
+        grid-column: span 1 !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+    }
+    
     .materials-grid {
         grid-template-columns: 1fr;
         gap: 20px;
     }
     
+    .material-card {
+        grid-column: span 1 !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+    }
+    
+    .get-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .get-card {
+        grid-column: span 1 !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+    }
+    
     .audience-grid {
         grid-template-columns: 1fr;
         gap: 14px;
+    }
+    
+    .audience-card-item {
+        grid-column: span 1 !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        width: 100% !important;
     }
     
     .testi-video-grid {
@@ -1243,6 +1311,10 @@ a {
         grid-template-columns: 1fr;
         padding: 30px 16px;
         gap: 30px;
+    }
+    
+    .countdown-wrapper {
+        padding: 24px 12px !important;
     }
     
     .countdown-timer {
