@@ -1056,6 +1056,18 @@ a {
     gap: 20px;
 }
 
+.closing-current-price {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--accent-neon);
+    line-height: 1.2;
+}
+
+.price-no-wrap {
+    white-space: nowrap;
+}
+
 .closing-cta-group {
     display: flex;
     justify-content: center;
@@ -1340,6 +1352,11 @@ a {
     .closing-pricing-stack {
         flex-direction: column;
         gap: 10px;
+    }
+    
+    .closing-current-price {
+        font-size: 20px !important;
+        text-align: center;
     }
     
     .font-large {
