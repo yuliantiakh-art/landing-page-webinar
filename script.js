@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // ==========================================================================
-    // STICKY HEADER EFFECT
+    // STICKY HEADER EFFECT (DESKTOP NAVBAR BACKGROUND)
     // ==========================================================================
     const navbar = document.querySelector('.navbar');
     
@@ -16,53 +16,82 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================================================
-    // COUNTDOWN TIMER
+    // SYNCHRONIZED COUNTDOWN TIMERS
     // ==========================================================================
-    const countdownElement = document.getElementById('countdown');
-    const targetDateStr = countdownElement.getAttribute('data-date');
-    const targetDate = new Date(targetDateStr).getTime();
+    // Target date: Kamis, 25 Juni 2026, 20:00 WIB (UTC+7)
+    const targetDate = new Date("2026-06-25T20:00:00+07:00").getTime();
     
-    const daysEl = document.getElementById('days');
-    const hoursEl = document.getElementById('hours');
-    const minutesEl = document.getElementById('minutes');
-    const secondsEl = document.getElementById('seconds');
+    // Hero Elements
+    const heroDays = document.getElementById('hero-days');
+    const heroHours = document.getElementById('hero-hours');
+    const heroMinutes = document.getElementById('hero-minutes');
+    const heroSeconds = document.getElementById('hero-seconds');
     
-    function updateCountdown() {
+    // Details Elements
+    const detailsDays = document.getElementById('details-days');
+    const detailsHours = document.getElementById('details-hours');
+    const detailsMinutes = document.getElementById('details-minutes');
+    const detailsSeconds = document.getElementById('details-seconds');
+    
+    // Sticky Mobile Bar Element
+    const stickyCountdownTimer = document.getElementById('sticky-countdown-timer');
+    
+    function updateCountdowns() {
         const now = new Date().getTime();
         const difference = targetDate - now;
         
         if (difference < 0) {
-            // If the webinar date has passed, show zeroed numbers or custom message
             clearInterval(countdownInterval);
-            if (daysEl) daysEl.innerText = "00";
-            if (hoursEl) hoursEl.innerText = "00";
-            if (minutesEl) minutesEl.innerText = "00";
-            if (secondsEl) secondsEl.innerText = "00";
             
-            const countdownTitle = document.querySelector('.countdown-wrapper h3');
-            if (countdownTitle) {
-                countdownTitle.innerText = "Webinar Sedang/Telah Berlangsung!";
-                countdownTitle.style.color = "#9CFF00";
-            }
+            // Set all timers to zero
+            const zeroTime = "00";
+            if (heroDays) heroDays.innerText = zeroTime;
+            if (heroHours) heroHours.innerText = zeroTime;
+            if (heroMinutes) heroMinutes.innerText = zeroTime;
+            if (heroSeconds) heroSeconds.innerText = zeroTime;
+            
+            if (detailsDays) detailsDays.innerText = zeroTime;
+            if (detailsHours) detailsHours.innerText = zeroTime;
+            if (detailsMinutes) detailsMinutes.innerText = zeroTime;
+            if (detailsSeconds) detailsSeconds.innerText = zeroTime;
+            
+            if (stickyCountdownTimer) stickyCountdownTimer.innerText = "Webinar Dimulai!";
             return;
         }
         
-        // Time calculations
+        // Calculations
         const days = Math.floor(difference / (1000 * 60 * 60 * 24));
         const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((difference % (1000 * 60)) / 1000);
         
-        // Output formatting
-        if (daysEl) daysEl.innerText = days < 10 ? '0' + days : days;
-        if (hoursEl) hoursEl.innerText = hours < 10 ? '0' + hours : hours;
-        if (minutesEl) minutesEl.innerText = minutes < 10 ? '0' + minutes : minutes;
-        if (secondsEl) secondsEl.innerText = seconds < 10 ? '0' + seconds : seconds;
+        // Formatting
+        const formattedDays = days < 10 ? '0' + days : days;
+        const formattedHours = hours < 10 ? '0' + hours : hours;
+        const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+        const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+        
+        // Render Hero Countdown
+        if (heroDays) heroDays.innerText = formattedDays;
+        if (heroHours) heroHours.innerText = formattedHours;
+        if (heroMinutes) heroMinutes.innerText = formattedMinutes;
+        if (heroSeconds) heroSeconds.innerText = formattedSeconds;
+        
+        // Render Details Box Countdown
+        if (detailsDays) detailsDays.innerText = formattedDays;
+        if (detailsHours) detailsHours.innerText = formattedHours;
+        if (detailsMinutes) detailsMinutes.innerText = formattedMinutes;
+        if (detailsSeconds) detailsSeconds.innerText = formattedSeconds;
+        
+        // Render Sticky Mobile Bar Countdown (Format: "03 Hari : 12 Jam")
+        if (stickyCountdownTimer) {
+            stickyCountdownTimer.innerText = `${formattedDays} Hari : ${formattedHours} Jam`;
+        }
     }
     
-    // Run once initially and then every second
-    updateCountdown();
-    const countdownInterval = setInterval(updateCountdown, 1000);
+    // Init countdown
+    updateCountdowns();
+    const countdownInterval = setInterval(updateCountdowns, 1000);
 
     // ==========================================================================
     // FAQ ACCORDION COLLAPSE/EXPAND
@@ -85,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isActive) {
                 currentItem.classList.add('active');
                 const content = currentItem.querySelector('.faq-content');
-                // Set max-height to scrollHeight to animate correctly
                 content.style.maxHeight = content.scrollHeight + 'px';
             }
         });
@@ -94,67 +122,59 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================================
     // META PIXEL CLICK EVENT TRACKING
     // ==========================================================================
-    // Helper function to safe track events
-    function trackFbEvent(eventName, isCustom = false, eventData = {}) {
+    function trackFbCheckoutEvent(buttonPosition) {
         if (typeof fbq === 'function') {
-            if (isCustom) {
-                fbq('trackCustom', eventName, eventData);
-            } else {
-                fbq('track', eventName, eventData);
-            }
-            console.log(`Facebook Pixel: tracked ${isCustom ? 'custom' : 'standard'} event "${eventName}"`, eventData);
+            fbq('track', 'InitiateCheckout', {
+                content_name: 'Pendaftaran Webinar Karyawan AI',
+                content_category: 'Webinar',
+                value: 99000,
+                currency: 'IDR',
+                position: buttonPosition
+            });
+            // Track custom event for precise dashboard analytics
+            fbq('trackCustom', 'ClickDaftarWebinar', {
+                button_position: buttonPosition
+            });
+            console.log(`Meta Pixel: Tracked InitiateCheckout from "${buttonPosition}"`);
         } else {
-            console.warn(`Facebook Pixel: fbq is not loaded. Event "${eventName}" not tracked.`);
+            console.warn(`Meta Pixel: fbq not loaded. Event from "${buttonPosition}" not tracked.`);
         }
     }
 
-    // 1. Klik "Daftar webinar" (navbar CTA)
-    const navDaftarBtn = document.getElementById('fb-track-nav-daftar');
-    if (navDaftarBtn) {
-        navDaftarBtn.addEventListener('click', () => {
-            trackFbEvent('InitiateCheckout', false, { content_name: 'Daftar Webinar Navbar' });
-            trackFbEvent('ClickDaftarWebinar', true, { position: 'navbar' });
-        });
+    // 1. Navbar "Daftar Webinar" click
+    const navBtn = document.getElementById('fb-track-nav-daftar');
+    if (navBtn) {
+        navBtn.addEventListener('click', () => trackFbCheckoutEvent('navbar'));
     }
 
-    // 2. Klik "Daftar webinar sekarang" (Hero CTA)
-    const heroDaftarBtn = document.getElementById('fb-track-hero-daftar');
-    if (heroDaftarBtn) {
-        heroDaftarBtn.addEventListener('click', () => {
-            trackFbEvent('InitiateCheckout', false, { content_name: 'Daftar Webinar Hero' });
-            trackFbEvent('ClickDaftarWebinarSekarangHero', true, { position: 'hero' });
-        });
+    // 2. Hero "Daftar Webinar Sekarang" click
+    const heroBtn = document.getElementById('fb-track-hero-daftar');
+    if (heroBtn) {
+        heroBtn.addEventListener('click', () => trackFbCheckoutEvent('hero'));
     }
 
-    // 3. Klik "Saya mau ikut webinar sekarang" (Countdown CTA)
-    const countdownDaftarBtn = document.getElementById('fb-track-countdown-daftar');
-    if (countdownDaftarBtn) {
-        countdownDaftarBtn.addEventListener('click', () => {
-            trackFbEvent('InitiateCheckout', false, { content_name: 'Saya Mau Ikut Webinar Sekarang' });
-            trackFbEvent('ClickSayaMauIkutWebinar', true, { position: 'countdown' });
-        });
+    // 3. Section 6 Details "Daftar Webinar Sekarang" click
+    const countdownBtn = document.getElementById('fb-track-countdown-daftar');
+    if (countdownBtn) {
+        countdownBtn.addEventListener('click', () => trackFbCheckoutEvent('details'));
     }
 
-    // 4. Klik "Daftar webinar sekarang (Rp99K)" (Closing CTA)
-    const closingDaftarBtn = document.getElementById('fb-track-closing-daftar');
-    if (closingDaftarBtn) {
-        closingDaftarBtn.addEventListener('click', () => {
-            trackFbEvent('InitiateCheckout', false, { content_name: 'Daftar Webinar Sekarang Rp99K' });
-            trackFbEvent('ClickDaftarWebinarSekarangClosing', true, { position: 'closing' });
-        });
+    // 4. Section 8 Closing "Daftar Webinar Sekarang" click
+    const closingBtn = document.getElementById('fb-track-closing-daftar');
+    if (closingBtn) {
+        closingBtn.addEventListener('click', () => trackFbCheckoutEvent('closing'));
     }
 
-    // 5. Klik "konsultasi via WhatsApp" sebagai leads (event "Lead")
-    const whatsappBtns = document.querySelectorAll('.fb-track-whatsapp');
-    whatsappBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            trackFbEvent('Lead', false, { content_name: 'Konsultasi WhatsApp' });
-            trackFbEvent('ClickConsultationWhatsApp', true);
-        });
-    });
+    // 5. Sticky Bottom Mobile "Daftar Webinar" click
+    const stickyBtn = document.getElementById('fb-track-sticky-daftar');
+    if (stickyBtn) {
+        stickyBtn.addEventListener('click', () => trackFbCheckoutEvent('sticky-mobile'));
+    }
 
-    // Handle scroll reveal effects for elements slightly
-    const scrollRevealElements = document.querySelectorAll('.problem-card, .step-card, .scenario-item');
+    // ==========================================================================
+    // SCROLL REVEAL ANIMATIONS (MOBILE FRIENDLY)
+    // ==========================================================================
+    const revealElements = document.querySelectorAll('.problem-simple-card, .material-card, .audience-card-item, .video-card');
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -164,13 +184,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, {
-        threshold: 0.1
+        threshold: 0.05
     });
 
-    scrollRevealElements.forEach(el => {
+    revealElements.forEach(el => {
         el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        el.style.transform = 'translateY(15px)';
+        el.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
         observer.observe(el);
     });
 });
