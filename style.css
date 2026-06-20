@@ -28,12 +28,16 @@
     scroll-behavior: smooth;
 }
 
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
     font-family: var(--font-body);
     line-height: 1.6;
-    overflow-x: hidden;
     position: relative;
 }
 
@@ -1166,15 +1170,44 @@ a {
     }
     
     .section-title {
-        font-size: 30px;
+        font-size: 28px;
     }
     
     .hero-title {
-        font-size: 34px;
+        font-size: 32px;
     }
     
-    .nav-links {
-        display: none;
+    .logo-title {
+        font-size: 13.5px;
+    }
+    
+    .logo-subtitle {
+        font-size: 9px;
+    }
+    
+    .nav-links, .nav-cta {
+        display: none; /* Hide nav links and navbar button on mobile since we have the sticky bottom CTA */
+    }
+    
+    .hero-pricing-box {
+        gap: 16px;
+        padding: 12px 16px;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+    }
+    
+    .hero-countdown-box {
+        padding: 12px 16px;
+        width: 100%;
+    }
+    
+    .countdown-timer-inline {
+        font-size: 13.5px;
+    }
+    
+    .countdown-timer-inline strong {
+        font-size: 15.5px;
     }
     
     .problem-simple-grid {
@@ -1195,7 +1228,37 @@ a {
     .testi-video-grid {
         grid-template-columns: 1fr;
         gap: 24px;
+        max-width: 100%;
+        width: 100%;
+        padding: 0 10px;
+    }
+    
+    .video-card {
+        width: 100%;
         max-width: 320px;
+        margin: 0 auto;
+    }
+    
+    .webinar-box {
+        grid-template-columns: 1fr;
+        padding: 30px 16px;
+        gap: 30px;
+    }
+    
+    .countdown-timer {
+        gap: 8px;
+    }
+    
+    .time-block {
+        padding: 8px 4px;
+    }
+    
+    .time-num {
+        font-size: 24px;
+    }
+    
+    .time-lbl {
+        font-size: 8px;
     }
     
     .hero-cta-group .btn {
@@ -1208,7 +1271,7 @@ a {
     }
     
     .font-large {
-        font-size: 32px;
+        font-size: 30px;
     }
     
     .footer-container {
