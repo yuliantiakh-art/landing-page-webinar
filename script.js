@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================================
     // SYNCHRONIZED COUNTDOWN TIMERS
     // ==========================================================================
-    // Target date: Kamis, 25 Juni 2026, 20:00 WIB (UTC+7)
-    const targetDate = new Date("2026-06-25T20:00:00+07:00").getTime();
+    // Target date: Kamis, 2 Juli 2026, 20:00 WIB (UTC+7)
+    const targetDate = new Date("2026-07-02T20:00:00+07:00").getTime();
     
     // Hero Elements
     const heroDays = document.getElementById('hero-days');
