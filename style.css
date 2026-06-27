@@ -786,10 +786,10 @@ a {
 
 .video-wrapper iframe {
     position: absolute;
-    top: -60px; /* Crop top title and channel avatar bar */
+    top: -24%; /* Crop top title, channel avatar, and watermark header responsively */
     left: 0;
     width: 100%;
-    height: calc(100% + 120px); /* Adjust height to cover shifted space and crop bottom logo */
+    height: 132%; /* Adjust height to cover shifted space and crop bottom overlay responsively */
     border: 0;
 }
 
